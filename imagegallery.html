@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageGallery</title>
+</head>
+<style>
+    body{
+        background-color:rgba(211, 211, 211,0.4) ;
+        padding: 0;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    
+        
+    }
+    #main{
+        /* border: 3px solid black; */
+        width: 100%;
+        height: auto;
+        
+
+    }
+    #main h1{
+        text-align: center;
+        margin-top: 0;
+       
+    }
+    #container
+    {
+        /* border: 3px solid red; */
+        margin: 10vh auto;
+        padding: 5vh;
+        border-radius:2vh;
+        box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.7);
+
+
+    }
+    #file{
+        width: 100%;
+        border-radius: 1vh;
+        background-color: black;
+        color: white;
+        text-align: center;
+        margin: 1vh;
+        height: 5vh;
+    }
+    #title{
+        width: 100%;
+        margin: 1vh;
+        border-radius: 1vh;
+        height: 5vh;
+        border: 1px solid;
+        outline: none;
+        
+    }
+    #desc{
+
+        width: 100%;
+        margin: 1vh;
+        border-radius: 1vh;
+        height: 5vh;
+        border: 1px solid;
+        outline: none;
+
+    }
+    #btn{
+
+        width: 20%;
+        margin: 2vh;
+        background-color: rgba(0, 128, 0,0.7);
+        height: 5vh;
+        border-radius: 3vh;
+        border: none;
+        cursor: pointer;
+    }
+    #lists{
+        border: 2px solid green;
+        margin: 5vh;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+
+
+
+    }
+    @media(max-width:768)
+    {
+        #main{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 50%;
+        }
+        #container{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 50%;
+
+        }
+
+    }
+
+
+
+</style>
+<body>
+<div id="main">
+    <h1>Image Gallery</h1>
+
+    <div id="container">
+        <input type="file" accept="image/*" id="file"><br>
+        <input type="text" id="title" placeholder="Image title"><br>
+        <input type="text" id="desc" placeholder="Image Description"><br>
+        <button id="btn">Add</button>
+        
+    </div>
+
+    
+    
+
+</div>
+
+<script>
+const fileInput = document.getElementById("file");
+const titleInput = document.getElementById("title");
+const descInput = document.getElementById("desc");
+const btn = document.getElementById("btn");
+
+const gallery = document.createElement("div");
+gallery.style.display = "flex";
+gallery.style.flexDirection = "row"; // Ensures horizontal alignment
+gallery.style.gap = "20px"; // Space between images
+gallery.style.marginTop = "20px";
+gallery.style.overflowX = "auto"; // Enables horizontal scrolling if too many images
+
+document.getElementById("main").appendChild(gallery);
+
+btn.addEventListener("click", () => {
+    let file = fileInput.files[0]; // Get the selected file
+    let title = titleInput.value.trim(); // Get title
+    let description = descInput.value.trim(); // Get description
+
+    if (!file || !title || !description) {
+        alert("Please select an image, enter a title, and provide a description!");
+        return;
+    }
+
+    let reader = new FileReader();
+    reader.onload = function (e) {
+       
+        let newDiv = document.createElement("div");
+        newDiv.style.border = "1px solid #ccc";
+        newDiv.style.padding = "10px";
+        newDiv.style.width = "220px";
+        newDiv.style.textAlign = "center";
+        newDiv.style.borderRadius = "8px";
+        newDiv.style.boxShadow = "0px 0px 5px rgba(0,0,0,0.2)";
+        newDiv.style.display = "flex";
+        newDiv.style.flexDirection = "column"; 
+        newDiv.style.alignItems = "center";
+
+        let img = document.createElement("img");
+        img.src = e.target.result;
+        img.style.width = "200px";
+        img.style.borderRadius = "5px";
+
+
+        let titleElement = document.createElement("h3");
+        titleElement.textContent = title;
+        titleElement.style.margin = "5px 0";
+
+        
+        let descElement = document.createElement("p");
+        descElement.textContent = description;
+        descElement.style.color = "#555";
+        descElement.style.fontSize = "14px";
+
+        
+        newDiv.appendChild(img);
+        newDiv.appendChild(titleElement);
+        newDiv.appendChild(descElement);
+
+       
+        gallery.appendChild(newDiv);
+
+        // Clear input fields
+        fileInput.value = "";
+        titleInput.value = "";
+        descInput.value = "";
+    };
+    reader.readAsDataURL(file);
+});
+
+    
+</script>
+    
+</body>
+</html>
